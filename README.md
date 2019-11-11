@@ -10,10 +10,10 @@ $ git clone https://github.com/aldiw01/aso-karawang-api.git
 
 #### Go into app's directory
 ``` bash
-$ cd safe-t-api
+$ cd aso-karawang-api
 ```
 
-#### Import database safe_t.sql into mySQL server
+#### Import database woc_karawang.sql into mySQL server
 
 #### Install node and npm
 For windows version, you can get it here -> https://nodejs.org/en/download/ 
