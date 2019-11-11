@@ -1,0 +1,29 @@
+{
+  "name": "safe-t-api",
+  "version": "0.1.0",
+  "description": "API - Smart IoT Applications for Orderly Traffic",
+  "author": "Aldi Wiranata",
+  "copyright": "Copyright 2019 IMV Laboratory - Aldi Wiranata",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/aldiw01/safe-t.git"
+  },
+  "dependencies": {
+    "crypto-js": "^3.1.9-1",
+    "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "express-jwt": "^5.3.1",
+    "jsonwebtoken": "^8.5.1",
+    "jwt-decode": "^2.2.0",
+    "mariasql": "^0.2.6",
+    "nodemailer": "^6.1.1"
+  },
+  "bugs": {
+    "url": "https://github.com/aldiw01/safe-t/issues"
+  },
+  "scripts": {
+    "start": "node src/index",
+    "start-dev": "nodemon src/index"
+  }
+}
