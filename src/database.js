@@ -56,7 +56,7 @@ module.exports = {
 					id: items[0],
 					username: items[1],
 					email: items[2],
-					course_id: items[3],
+					imageUrl: items[3],
 					score: items[4],
 					duration: items[5],
 					created: items[6],
@@ -85,7 +85,7 @@ module.exports = {
 					id: items[0],
 					username: items[1],
 					email: items[2],
-					course_id: items[3],
+					imageUrl: items[3],
 					score: items[4],
 					duration: items[5],
 					created: items[6],
@@ -114,7 +114,7 @@ module.exports = {
 					id: items[0],
 					username: items[1],
 					email: items[2],
-					course_id: items[3],
+					imageUrl: items[3],
 					score: items[4],
 					duration: items[5],
 					created: items[6],
@@ -143,7 +143,7 @@ module.exports = {
 					id: items[0],
 					username: items[1],
 					email: items[2],
-					course_id: items[3],
+					imageUrl: items[3],
 					score: items[4],
 					duration: items[5],
 					created: items[6],
@@ -160,12 +160,12 @@ module.exports = {
 	},
 	newScore: function (req, res) {
 		const waktu = new Date().toISOString();
-		var request = [req.body.username, req.body.email, req.body.course_id, req.body.score, req.body.duration, waktu, waktu];
+		var request = [req.body.username, req.body.email, req.body.imageUrl, req.body.score, req.body.duration, waktu, waktu];
 		if (request.includes(undefined) || request.includes("")) {
 			res.send({ message: 'Bad Request: Parameters cannot empty.' });
 			return
 		}
-		c.query("INSERT INTO `data_score` (`username`, `email`, `course_id`, `score`, `duration`, `created`, `updated`) VALUES (?, ?, ?, ?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
+		c.query("INSERT INTO `data_score` (`username`, `email`, `imageUrl`, `score`, `duration`, `created`, `updated`) VALUES (?, ?, ?, ?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
 			if (err) {
 				res.status(500).send({ message: "Error 500: Internal Server Error" });
 				console.log(err);
