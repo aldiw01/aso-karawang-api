@@ -106,23 +106,27 @@ app.get('/api/score', (req, res) => {
 	db.getScoreAll(req.body, res);
 })
 
-app.get('/api/score/:id', (req, res) => {
-	db.getScore(req.params, res);
+app.get('/api/score/top10', (req, res) => {
+	db.getTop10(req, res);
 })
 
 app.get('/api/score/user/:id', (req, res) => {
 	db.getUserScore(req.params, res);
 })
 
+app.get('/api/score/:id', (req, res) => {
+	db.getScore(req.params, res);
+})
+
 app.post('/api/score', (req, res) => {
 	db.newScore(req, res);
 })
 
-app.put('/api/score/:uid', (req, res) => {
-	db.updateScore(req.params, res);
+app.put('/api/score/:id', (req, res) => {
+	db.updateScore(req, res);
 })
 
-app.delete('/api/score/:uid', (req, res) => {
+app.delete('/api/score/:id', (req, res) => {
 	db.deleteScore(req.params, res);
 })
 

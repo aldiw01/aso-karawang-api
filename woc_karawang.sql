@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Nov 11, 2019 at 01:11 PM
+-- Generation Time: Nov 12, 2019 at 07:00 AM
 -- Server version: 10.1.30-MariaDB
 -- PHP Version: 5.6.33
 
@@ -52,14 +52,23 @@ INSERT INTO `data_quiz` (`id`, `question`, `ans1`, `ans2`, `ans3`, `ans4`) VALUE
 --
 
 CREATE TABLE `data_score` (
-  `id` varchar(11) NOT NULL,
-  `user_id` varchar(100) NOT NULL,
+  `id` int(11) NOT NULL,
+  `username` varchar(100) NOT NULL,
+  `email` varchar(100) NOT NULL,
   `course_id` varchar(11) NOT NULL,
   `score` int(11) NOT NULL,
   `duration` varchar(24) NOT NULL,
   `created` varchar(24) NOT NULL,
   `updated` varchar(24) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Dumping data for table `data_score`
+--
+
+INSERT INTO `data_score` (`id`, `username`, `email`, `course_id`, `score`, `duration`, `created`, `updated`) VALUES
+(1, 'Aldi Wiranata', 'aldiw01@gmail.com', '1', 3, '10801', '2019-11-11T17:07:08.004Z', '2019-11-11T17:07:08.004Z'),
+(2, 'Aldi Wiranata', 'aldiw01@gmail.com', '1', 2, '47301', '2019-11-12T04:20:21.555Z', '2019-11-12T04:20:21.555Z');
 
 --
 -- Indexes for dumped tables
@@ -85,6 +94,12 @@ ALTER TABLE `data_score`
 -- AUTO_INCREMENT for table `data_quiz`
 --
 ALTER TABLE `data_quiz`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+
+--
+-- AUTO_INCREMENT for table `data_score`
+--
+ALTER TABLE `data_score`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 COMMIT;
 

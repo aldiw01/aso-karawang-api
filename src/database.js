@@ -54,12 +54,13 @@ module.exports = {
 			rows.forEach(function (items) {
 				data.push({
 					id: items[0],
-					user_id: items[1],
-					course_id: items[2],
-					score: items[3],
-					duration: items[4],
-					created: items[5],
-					updated: items[6]
+					username: items[1],
+					email: items[2],
+					course_id: items[3],
+					score: items[4],
+					duration: items[5],
+					created: items[6],
+					updated: items[7]
 				});
 			});
 			if (data.length < 1) {
@@ -82,12 +83,13 @@ module.exports = {
 			rows.forEach(function (items) {
 				data.push({
 					id: items[0],
-					user_id: items[1],
-					course_id: items[2],
-					score: items[3],
-					duration: items[4],
-					created: items[5],
-					updated: items[6]
+					username: items[1],
+					email: items[2],
+					course_id: items[3],
+					score: items[4],
+					duration: items[5],
+					created: items[6],
+					updated: items[7]
 				});
 			});
 			if (data.length < 1) {
@@ -99,7 +101,7 @@ module.exports = {
 		c.end();
 	},
 	getUserScore: function (req, res) {
-		c.query("SELECT * FROM `data_score` WHERE user_id=?", [req.id], { metadata: true, useArray: true }, function (err, rows) {
+		c.query("SELECT * FROM `data_score` WHERE email=?", [req.id], { metadata: true, useArray: true }, function (err, rows) {
 			if (err) {
 				res.status(500).send({ message: "Error 500: Internal Server Error" });
 				console.log(err);
@@ -110,12 +112,42 @@ module.exports = {
 			rows.forEach(function (items) {
 				data.push({
 					id: items[0],
-					user_id: items[1],
-					course_id: items[2],
-					score: items[3],
-					duration: items[4],
-					created: items[5],
-					updated: items[6]
+					username: items[1],
+					email: items[2],
+					course_id: items[3],
+					score: items[4],
+					duration: items[5],
+					created: items[6],
+					updated: items[7]
+				});
+			});
+			if (data.length < 1) {
+				res.status(404).send('Data not found.');
+			} else {
+				res.json(data);
+			}
+		});
+		c.end();
+	},
+	getTop10: function (req, res) {
+		c.query("SELECT * FROM `data_score` ORDER BY `score` DESC, `duration` LIMIT 10", null, { metadata: true, useArray: true }, function (err, rows) {
+			if (err) {
+				res.status(500).send({ message: "Error 500: Internal Server Error" });
+				console.log(err);
+				return
+			}
+
+			var data = [];
+			rows.forEach(function (items) {
+				data.push({
+					id: items[0],
+					username: items[1],
+					email: items[2],
+					course_id: items[3],
+					score: items[4],
+					duration: items[5],
+					created: items[6],
+					updated: items[7]
 				});
 			});
 			if (data.length < 1) {
@@ -128,12 +160,12 @@ module.exports = {
 	},
 	newScore: function (req, res) {
 		const waktu = new Date().toISOString();
-		var request = [req.body.user_id, req.body.course_id, req.body.score, req.body.duration, waktu, waktu];
+		var request = [req.body.username, req.body.email, req.body.course_id, req.body.score, req.body.duration, waktu, waktu];
 		if (request.includes(undefined) || request.includes("")) {
 			res.send({ message: 'Bad Request: Parameters cannot empty.' });
 			return
 		}
-		c.query("INSERT INTO `data_score` (`user_id`, `course_id`, `score`, `duration`, `created`, `updated`) VALUES (?, ?, ?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
+		c.query("INSERT INTO `data_score` (`username`, `email`, `course_id`, `score`, `duration`, `created`, `updated`) VALUES (?, ?, ?, ?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
 			if (err) {
 				res.status(500).send({ message: "Error 500: Internal Server Error" });
 				console.log(err);
@@ -149,14 +181,14 @@ module.exports = {
 		});
 		c.end();
 	},
-	updateScore: function (req, score, res) {
+	updateScore: function (req, res) {
 		const waktu = new Date().toISOString();
-		var request = [score, waktu, req.uid]
+		var request = [req.body.score, waktu, req.params.id]
 		if (request.includes(undefined) || request.includes("")) {
 			res.send({ message: 'Bad Request: Parameters cannot empty.' });
 			return
 		}
-		c.query("UPDATE `data_score` SET `score`=?, `updated`=? WHERE `user_id`=?", request, { metadata: true, useArray: true }, function (err, rows) {
+		c.query("UPDATE `data_score` SET `score`=?, `updated`=? WHERE `id`=?", request, { metadata: true, useArray: true }, function (err, rows) {
 			if (err) {
 				res.status(500).send({ message: "Error 500: Internal Server Error" });
 				console.log(err);
@@ -173,12 +205,12 @@ module.exports = {
 		c.end();
 	},
 	deleteScore: function (req, res) {
-		var request = [req.uid]
+		var request = [req.id]
 		if (request.includes(undefined) || request.includes("")) {
 			res.send({ message: 'Bad Request: Parameters cannot empty.' });
 			return
 		}
-		c.query("DELETE FROM `data_score` WHERE user_id=?", [req.uid], { metadata: true, useArray: true }, function (err, rows) {
+		c.query("DELETE FROM `data_score` WHERE id=?", [req.id], { metadata: true, useArray: true }, function (err, rows) {
 			if (err) {
 				res.status(500).send({ message: "Error 500: Internal Server Error" });
 				console.log(err);

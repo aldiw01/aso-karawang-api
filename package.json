@@ -1,13 +1,16 @@
 {
-  "name": "safe-t-api",
+  "name": "aso-karawang-api",
   "version": "0.1.0",
-  "description": "API - Smart IoT Applications for Orderly Traffic",
+  "description": "API - Tutorial ASO Witel Karawang",
   "author": "Aldi Wiranata",
-  "copyright": "Copyright 2019 IMV Laboratory - Aldi Wiranata",
+  "copyright": "Copyright 2019 WOC Karawang - Aldi Wiranata",
   "private": true,
   "repository": {
     "type": "git",
-    "url": "https://github.com/aldiw01/safe-t.git"
+    "url": "https://github.com/aldiw01/aso-karawang-api.git"
+  },
+  "engines": {
+    "node": "11.10.0"
   },
   "dependencies": {
     "crypto-js": "^3.1.9-1",
@@ -20,7 +23,7 @@
     "nodemailer": "^6.1.1"
   },
   "bugs": {
-    "url": "https://github.com/aldiw01/safe-t/issues"
+    "url": "https://github.com/aldiw01/aso-karawang-api/issues"
   },
   "scripts": {
     "start": "node src/index",
