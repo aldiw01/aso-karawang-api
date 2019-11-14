@@ -256,10 +256,7 @@ module.exports = {
 				data.push({
 					id: items[0],
 					question: items[1],
-					ans1: items[2],
-					ans2: items[3],
-					ans3: items[4],
-					ans4: items[5]
+					ans: [items[2], items[3], items[4], items[5]]
 				});
 			});
 			if (data.length < 1) {
@@ -283,10 +280,7 @@ module.exports = {
 				data.push({
 					id: items[0],
 					question: items[1],
-					ans1: items[2],
-					ans2: items[3],
-					ans3: items[4],
-					ans4: items[5]
+					ans: [items[2], items[3], items[4], items[5]]
 				});
 			});
 			if (data.length < 1) {
