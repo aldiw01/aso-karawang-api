@@ -1,5 +1,3 @@
-const express = require('express');
-const bodyParser = require('body-parser');
 var mailService = require('./mailService.js');
 const Client = require('mariasql');
 const c = new Client({
@@ -160,7 +158,7 @@ module.exports = {
 	},
 	newScore: function (req, res) {
 		const waktu = new Date().toISOString();
-		var request = [req.body.username, req.body.email, req.body.imageUrl, req.body.score, req.body.duration, waktu, waktu];
+		var request = [req.username, req.email, req.imageUrl, req.score, req.duration, waktu, waktu];
 		if (request.includes(undefined) || request.includes("")) {
 			res.send({ message: 'Bad Request: Parameters cannot empty.' });
 			return
@@ -292,7 +290,7 @@ module.exports = {
 		c.end();
 	},
 	newQuiz: function (req, res) {
-		var request = [req.body.id, req.body.question, req.body.ans1, req.body.ans2, ans3, ans4];
+		var request = [req.id, req.question, req.ans1, req.ans2, ans3, ans4];
 		if (request.includes(undefined) || request.includes("")) {
 			res.send({ message: 'Bad Request: Parameters cannot empty.' });
 			return
@@ -347,6 +345,83 @@ module.exports = {
 				affectedRows: rows.info.affectedRows,
 				err: null,
 				message: "All Quiz has deleted successfully :[",
+				success: true
+			});
+		});
+		c.end();
+	},
+	getFeedbackAll: function (req, res) {
+		c.query('SELECT * FROM `data_feedback` ORDER BY `id`', null, { metadata: true, useArray: true }, function (err, rows) {
+			if (err) {
+				res.status(500).send({ message: "Error 500: Internal Server Error" });
+				console.log(err);
+				return
+			}
+
+			var data = [];
+			rows.forEach(function (items) {
+				data.push({
+					id: items[0],
+					name: items[1],
+					email: items[2],
+					message: items[3],
+					created: items[4]
+				});
+			});
+			if (data.length < 1) {
+				res.status(404).send('Data not found.');
+			} else {
+				res.json(data);
+			}
+		});
+		c.end();
+	},
+	getFeedback: function (req, res) {
+		c.query("SELECT * FROM `data_feedback` WHERE id=?", [req.id], { metadata: true, useArray: true }, function (err, rows) {
+			if (err) {
+				res.status(500).send({ message: "Error 500: Internal Server Error" });
+				console.log(err);
+				return
+			}
+
+			var data = [];
+			rows.forEach(function (items) {
+				data.push({
+					id: items[0],
+					name: items[1],
+					email: items[2],
+					message: items[3],
+					created: items[4]
+				});
+			});
+			if (data.length < 1) {
+				res.status(404).send('Data not found.');
+			} else {
+				res.json(data);
+			}
+		});
+		c.end();
+	},
+	newFeedback: function (req, res) {
+		const waktu = new Date().toISOString();
+		var request = [req.name, req.email, req.message, waktu];
+		if (request.includes(undefined) || request.includes("")) {
+			res.send({ message: 'Bad Request: Parameters cannot empty.' });
+			return
+		}
+		c.query("INSERT INTO `data_feedback` (`name`, `email`, `message`, `created`) VALUES (?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
+			if (err) {
+				res.status(500).send({ message: "Error 500: Internal Server Error" });
+				console.log(err);
+				return
+			}
+
+			mailService.sendFeedback(req.email, req.name, req.message, res)
+
+			res.json({
+				affectedRows: rows.info.affectedRows,
+				err: null,
+				message: "Feedback has recorded, thanks for your input.",
 				success: true
 			});
 		});

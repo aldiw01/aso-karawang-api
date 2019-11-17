@@ -119,7 +119,7 @@ app.get('/api/score/:id', (req, res) => {
 })
 
 app.post('/api/score', (req, res) => {
-	db.newScore(req, res);
+	db.newScore(req.body, res);
 })
 
 app.put('/api/score/:id', (req, res) => {
@@ -150,7 +150,7 @@ app.get('/api/quiz/user/:id', (req, res) => {
 })
 
 app.post('/api/quiz', (req, res) => {
-	db.newQuiz(req, res);
+	db.newQuiz(req.body, res);
 })
 
 app.delete('/api/quiz/:id', (req, res) => {
@@ -159,6 +159,21 @@ app.delete('/api/quiz/:id', (req, res) => {
 
 app.delete('/api/quiz/all/ever', (req, res) => {
 	db.deleteQuizAll(req.params, res);
+})
+
+/////////////////////////////////////////////////////////////////////////////////////////////
+// API Feedback
+
+app.get('/api/feed', (req, res) => {
+	db.getFeedbackAll(req.body, res);
+})
+
+app.get('/api/feed/:id', (req, res) => {
+	db.getFeedback(req.params, res);
+})
+
+app.post('/api/feed', (req, res) => {
+	db.newFeedback(req.body, res);
 })
 
 // Error handling 
