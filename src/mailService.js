@@ -7,7 +7,7 @@ const pass = process.env.APP_EMAIL_PASSWORD;
 
 // async..await is not allowed in global scope, must use a wrapper
 module.exports = {
-  sendFeedback: function (target, username, body, res) {
+  sendFeedback: function (req, res) {
 
     // Generate test SMTP service account from ethereal.email
     // Only needed if you don't have a real mail account for testing
@@ -34,7 +34,7 @@ module.exports = {
       from: process.env.APP_EMAIL_NAME + ' <' + process.env.APP_EMAIL_USER + '>', // sender address
       to: process.env.APP_EMAIL_RECEIVER, // list of receivers
       subject: "[" + process.env.APP_NAME + "] Feedback", // Subject line
-      html: "From: <strong>" + username + "</strong><br/>Email: <strong>" + target + "</strong><br/>Message: " + body // html body
+      html: "From: <strong>" + req.name + "</strong><br/>Email: <strong>" + req.email + "</strong><br/>Rating: <strong>" + req.rating + "</strong><br/>Message: " + req.message // html body
     };
 
     // send mail with defined transport object

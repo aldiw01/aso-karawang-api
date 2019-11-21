@@ -364,8 +364,9 @@ module.exports = {
 					id: items[0],
 					name: items[1],
 					email: items[2],
-					message: items[3],
-					created: items[4]
+					rating: items[3],
+					message: items[4],
+					created: items[5]
 				});
 			});
 			if (data.length < 1) {
@@ -390,8 +391,9 @@ module.exports = {
 					id: items[0],
 					name: items[1],
 					email: items[2],
-					message: items[3],
-					created: items[4]
+					rating: items[3],
+					message: items[4],
+					created: items[5]
 				});
 			});
 			if (data.length < 1) {
@@ -404,19 +406,19 @@ module.exports = {
 	},
 	newFeedback: function (req, res) {
 		const waktu = new Date().toISOString();
-		var request = [req.name, req.email, req.message, waktu];
-		if (request.includes(undefined) || request.includes("")) {
-			res.send({ message: 'Bad Request: Parameters cannot empty.' });
+		var request = [req.name, req.email, req.rating, req.message, waktu];
+		if (req.rating === "" || req.message === "") {
+			res.send({ message: 'Please give your rating and message.' });
 			return
 		}
-		c.query("INSERT INTO `data_feedback` (`name`, `email`, `message`, `created`) VALUES (?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
+		c.query("INSERT INTO `data_feedback` (`name`, `email`, `rating`, `message`, `created`) VALUES (?, ?, ?, ?, ?)", request, { metadata: true, useArray: true }, function (err, rows) {
 			if (err) {
 				res.status(500).send({ message: "Error 500: Internal Server Error" });
 				console.log(err);
 				return
 			}
 
-			mailService.sendFeedback(req.email, req.name, req.message, res)
+			mailService.sendFeedback(req, res)
 
 			res.json({
 				affectedRows: rows.info.affectedRows,
